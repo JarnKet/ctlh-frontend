@@ -54,7 +54,7 @@
   "scripts": {
     "start": "set PORT=3002 && react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
-    "build-deploy": "GENERATE_SOURCEMAP=false react-scripts build && aws s3 sync ./build s3://ctlh-web/ --profile ctlh-profile",
+    "build-deploy": "react-scripts build && aws s3 sync ./build s3://ctlh-web/ --profile ctlh-profile",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

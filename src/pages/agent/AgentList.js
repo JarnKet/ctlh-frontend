@@ -20,7 +20,8 @@ import { AGENT_DETAIL } from "../../consts/router";
 import { dateTimeLao } from "../../helper";
 
 export default function AgentList() {
-  const GET_ALL_SHOP_AGENT = "http://localhost:8080/v1/api/shop-agent/";
+  // const GET_ALL_SHOP_AGENT = "http://localhost:8080/v1/api/shop-agent/";
+  const GET_ALL_SHOP_AGENT = "https://ctlh-api.selectoptions.net:8080/v1/api/shop-agent/";
   const [shopAgentList, setShopAgentList] = useState(null);
   const history = useHistory();
   const [deleteAgentId, setDeleteAgentId] = useState(null);

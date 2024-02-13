@@ -10,8 +10,8 @@ import { Form, Button, Row, Col, Breadcrumb, Card, Spinner } from "react-bootstr
 import Loading from "../../common/Loading";
 
 export default function AddAgent() {
-  const CREATE_USER_AND_SHOP_AGENT = "http://localhost:8080/v1/api/shop-agent/shop-and-user";
-  const GET_MANY_SHOP_TYPE = "http://localhost:8080/v1/api/shop-type";
+  const CREATE_USER_AND_SHOP_AGENT = "https://ctlh-api.selectoptions.net:8080/v1/api/shop-agent/shop-and-user";
+  const GET_MANY_SHOP_TYPE = "https://ctlh-api.selectoptions.net:8080/v1/api/shop-type";
   const S3_IMG_LINK = "https://ctlh-bucket.s3.ap-southeast-1.amazonaws.com/images/";
 
   const history = useHistory();
@@ -50,7 +50,7 @@ export default function AddAgent() {
     let config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: "http://localhost:8080/v1/api/file/presign-url",
+      url: "https://ctlh-api.selectoptions.net:8080/v1/api/file/presign-url",
       headers: {
         "Content-Type": "application/json",
       },
@@ -371,7 +371,7 @@ export default function AddAgent() {
                     </Row>
                     <Row>
                       <Form.Group className="mb-3" controlId="country">
-                        <Form.Label>ປະເທດ</Form.Label>
+                        <Form.Label>ສັນຊາດ</Form.Label>
                         <Form.Control
                           type="text"
                           placeholder="Enter country"
