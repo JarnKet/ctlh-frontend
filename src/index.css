@@ -1,0 +1,38 @@
+@font-face {
+  font-family: "NotoSansLao";
+  src: url('../public/assets/NotoSansLao/NotoSansLaoUI-Regular.ttf');
+}
+
+@font-face {
+  font-family: "windSong";
+  src: url('../public/assets/NotoSansLao/WindSong-Regular.ttf');
+}
+
+
+* {
+  font-family: "NotoSansLao";
+  src: url('../public/assets/NotoSansLao/NotoSansLaoUI-Regular.ttf');
+}
+
+*, canvas, label {
+  margin: 0;
+  font-family: "NotoSansLao" !important;
+}
+
+.empty {
+  font-family: "FontAwesome", "Phetsarath OT";
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

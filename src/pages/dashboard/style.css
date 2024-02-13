@@ -1,0 +1,85 @@
+.dash-card {
+    padding: 12px;
+    background-color: #FFFFFF;
+    display: grid;
+    gap: 10;
+    height: 100px;
+    border-radius: 10px;
+    cursor: pointer;
+    /* border: linear-gradient(to bottom, #3F83F8, #019CAD); */
+    /* border: solid 1px #3F83F8; */
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.206);
+}
+.dash-cardB {
+    padding: 12px;
+    background-color: #FFFFFF;
+    display: grid;
+    gap: 10;
+    height: 140px;
+    border-radius: 10px;
+    cursor: pointer;
+    /* border: linear-gradient(to right, #3F83F8, #019CAD); */
+    /* border: solid 1px #3F83F8; */
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.206);
+}
+
+.dash-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dash-icon>.dash-icon-bg>#icon {
+    font-size: 34px;
+    color: #FF91B6;
+}
+
+.dash-icon>.dash-icon-bg>#icon1 {
+    font-size: 34px;
+    color: #FF4584;
+}
+
+.dash-icon>.dash-icon-bg>#icon2 {
+    font-size: 34px;
+    color: #CC3769;
+}
+
+
+.dash-icon>.dash-icon-bg>#icon3 {
+    font-size: 34px;
+    color: #80495B;
+}
+.dash-icon>.dash-icon-bg>#icon4 {
+    font-size: 34px;
+    color: #802241;
+}
+.dash-icon>.dash-icon-bg>#icon5 {
+    font-size: 34px;
+    color: #B31E50;
+}
+
+.dash-icon-bg {
+    width: 100px;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 8px;
+}
+
+.dash-text>b {
+    font-size: 20px;
+}
+
+.bg-income {
+  background: #FFFFFF;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.206);
+
+}
+.bg-expends {
+  background: #FFFFFF;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.206);
+}
+.pie-chart{
+    padding: 18px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.206);
+}

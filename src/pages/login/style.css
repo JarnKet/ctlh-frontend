@@ -1,0 +1,85 @@
+:root {
+  --white: #fff;
+  --bitter-sweet: #ff5059;
+  --power-blue: #96acc4;
+}
+
+.login-background .login-text-muted {
+  color: red;
+  font-size: 11pt;
+}
+.font-login {
+  font-family: "windSong" !important;
+  font-weight: 900;
+  color: #f54f87;
+}
+
+.login-form {
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: #fff;
+  /* backdrop-filter: blur(20px); */
+  max-width: 400px;
+  position: relative;
+}
+
+.image-login {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+
+  background: rgb(150, 172, 196);
+  background: linear-gradient(90deg, rgba(150, 172, 196, 1) 0%, rgba(255, 80, 89, 1) 100%);
+}
+
+h1 {
+  text-align: center;
+}
+
+.input-user {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.input-pass {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.btn-login {
+  background-color: var(--bitter-sweet);
+  color: #fff;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* .btn-login:hover {
+  background-color: #f95f93;
+} */
+
+input[name="selectType"] {
+  accent-color: var(--bitter-sweet);
+}
+
+@media screen and (max-width: 600px) {
+  .login-form {
+    margin: 20% auto;
+    max-width: 300px;
+  }
+}

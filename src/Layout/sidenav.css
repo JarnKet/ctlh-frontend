@@ -1,0 +1,90 @@
+:root {
+  --main-color: #ff5059;
+  --main2-color: #e0d5e0;
+  --second-color: #ffff;
+}
+.sidenav---sidenav---_2tBP.sidenav---expanded---1KdUL
+  .sidenav---sidenav-subnav---1EN61
+  > .sidenav---sidenav-subnavitem---1cD47.sidenav---selected---1EK3y
+  > .sidenav---navitem---9uL5T {
+  background-color: var(--second-color);
+  color: var(--main-color);
+}
+.sidenav---sidenav---_2tBP.sidenav---expanded---1KdUL
+  .sidenav---sidenav-subnav---1EN61
+  > .sidenav---sidenav-subnavitem---1cD47.sidenav---selected---1EK3y
+  > .sidenav---navitem---9uL5T::before {
+  height: 40px;
+  left: 10px;
+  top: 4px;
+  position: absolute;
+  border: none;
+}
+.sidenav---sidenav-subnav---1EN61 {
+  /* background: linear-gradient(to bottom, var(--main-color), var(--main2-color)); */
+  /* background: var(--main-color); */
+  background-color: #ff5059;
+  color: var(--second-color);
+}
+.sidenav---sidenav-subnav---1EN61 > .sidenav---sidenav-subnavitem---1cD47 > .sidenav---navitem---9uL5T {
+  line-height: 46px;
+  color: var(--second-color);
+}
+.sidenav---sidenav-subnav---1EN61 > .sidenav---sidenav-subnavitem---1cD47 > .sidenav---navitem---9uL5T:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+.sidenav---sidenav---_2tBP.sidenav---expanded---1KdUL
+  .sidenav---sidenav-subnav---1EN61
+  > .sidenav---sidenav-subnavitem---1cD47
+  > .sidenav---navitem---9uL5T {
+  color: var(--second-color);
+  padding: 0 14px 0 50px;
+  line-height: 46px;
+}
+.sidenav---sidenav-subnav---1EN61 > .sidenav---sidenav-subnavitem---1cD47.sidenav---selected---1EK3y > .sidenav---navitem---9uL5T {
+  color: var(--main-color);
+  background-color: var(--second-color);
+}
+.sidenav---sidenav---_2tBP.sidenav---expanded---1KdUL .sidenav---sidenav-subnav---1EN61 > .sidenav---sidenav-subnavitem---1cD47::before {
+  content: " ";
+  width: 100%;
+  height: 46px;
+  position: absolute;
+  top: 0;
+  z-index: -1;
+}
+
+.sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ-.sidenav---highlighted---oUx9u > .sidenav---navitem---9uL5T::after {
+  background: var(--second-color);
+  opacity: 1;
+}
+.sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ-:hover.sidenav---highlighted---oUx9u > .sidenav---navitem---9uL5T::after {
+  background: var(--second-color);
+  opacity: 1;
+}
+.sidenav---sidenav-nav---3tvij
+  > .sidenav---sidenav-navitem---uwIJ-.sidenav---highlighted---oUx9u.sidenav---expanded---1KdUL
+  > .sidenav---navitem---9uL5T::after {
+  background-color: transparent;
+  opacity: 1;
+}
+
+.sidenav---sidenav-nav---3tvij
+  > .sidenav---sidenav-navitem---uwIJ-:hover.sidenav---highlighted---oUx9u.sidenav---expanded---1KdUL
+  > .sidenav---navitem---9uL5T::after {
+  background-color: transparent;
+  opacity: 1;
+}
+.sidenav---sidenav-nav---3tvij
+  > .sidenav---sidenav-navitem---uwIJ-.sidenav---highlighted---oUx9u.sidenav---selected---1EK3y.sidenav---expanded---1KdUL
+  > .sidenav---navitem---9uL5T::after {
+  background: var(--second-color);
+  opacity: 1;
+}
+
+.sidenav---sidenav-nav---3tvij
+  > .sidenav---sidenav-navitem---uwIJ-:hover.sidenav---highlighted---oUx9u.sidenav---selected---1EK3y.sidenav---expanded---1KdUL
+  > .sidenav---navitem---9uL5T::after {
+  background: var(--second-color);
+  opacity: 1;
+}
