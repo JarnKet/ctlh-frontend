@@ -232,6 +232,10 @@ export default function AgentDetail() {
                 )}
               </div>
               <div className="flexBetween">
+                <p className="">ລິ້ງຕຳແໜ່ງ:</p>
+                <p style={{ fontWeight: "bold", wordBreak: "break-all" }}>{agentDetail?.location}</p>
+              </div>
+              <div className="flexBetween">
                 <p className="">ຕັ້ງຢູ່ທີ່:</p>
                 <p style={{ fontWeight: "bold" }}>
                   {agentDetail?.village}, {agentDetail?.district}, {agentDetail?.province}

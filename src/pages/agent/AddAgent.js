@@ -104,12 +104,12 @@ export default function AddAgent() {
         shopName: values.shopName,
         shopImage: shopProfile,
         shopPhone: values.shopPhone,
-        villageShop: values.villageShop,
-        districtShop: values.districtShop,
-        provinceShop: values.provinceShop,
-        countryShop: values.countryShop,
+        village: values.villageShop,
+        district: values.districtShop,
+        province: values.provinceShop,
+        country: values.countryShop,
         location: values.location,
-        noteShop: values.noteShop,
+        note: values.noteShop,
       },
     };
 
@@ -213,7 +213,7 @@ export default function AddAgent() {
                           <Form.Label>ຊື່ແທ້</Form.Label>
                           <Form.Control
                             type="text"
-                            placeholder="Enter name"
+                            placeholder="ປ້ອນຊື່ແທ້..."
                             name="firstName"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -226,7 +226,7 @@ export default function AddAgent() {
                           <Form.Label>ນາມສະກຸນ</Form.Label>
                           <Form.Control
                             type="text"
-                            placeholder="Enter phone"
+                            placeholder="ປ້ອນນາມສະກຸນ..."
                             name="lastName"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -239,7 +239,7 @@ export default function AddAgent() {
                           <Form.Label>ຊື່ຫຼິ້ນ</Form.Label>
                           <Form.Control
                             type="nickName"
-                            placeholder="Enter nickName"
+                            placeholder="ປ້ອນຊື່ຫຼິ້ນ..."
                             name="nickName"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -264,7 +264,7 @@ export default function AddAgent() {
                           <Form.Label>Phone</Form.Label>
                           <Form.Control
                             type="phone"
-                            placeholder="Enter Phone"
+                            placeholder="ປ້ອນເບີໂທ..."
                             name="phone"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -278,7 +278,7 @@ export default function AddAgent() {
                         <Form.Label>ລະຫັດຜ່ານ</Form.Label>
                         <Form.Control
                           type="password"
-                          placeholder="Enter password"
+                          placeholder="ປ້ອນລະຫັດຜ່ານ..."
                           name="password"
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -291,8 +291,8 @@ export default function AddAgent() {
                         <Form.Group className="mb-3" controlId="whatsapp">
                           <Form.Label>Whatsapp</Form.Label>
                           <Form.Control
-                            type="text"
-                            placeholder="Enter whatsapp"
+                            type="phone"
+                            placeholder="ປ້ອນເບີ Whatsapp"
                             name="whatsapp"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -305,7 +305,7 @@ export default function AddAgent() {
                           <Form.Label>Facebook</Form.Label>
                           <Form.Control
                             type="text"
-                            placeholder="Enter facebook"
+                            placeholder="ປ້ອນຊື່ Facebook"
                             name="facebook"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -318,7 +318,7 @@ export default function AddAgent() {
                           <Form.Label>Line</Form.Label>
                           <Form.Control
                             type="text"
-                            placeholder="Enter line"
+                            placeholder="ປ້ອນ ID Line"
                             name="line"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -334,7 +334,7 @@ export default function AddAgent() {
                           <Form.Label>ບ້ານ</Form.Label>
                           <Form.Control
                             type="text"
-                            placeholder="Enter village"
+                            placeholder="ປ້ອນຊື່ບ້ານ..."
                             name="village"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -347,7 +347,7 @@ export default function AddAgent() {
                           <Form.Label>ເມືອງ</Form.Label>
                           <Form.Control
                             type="text"
-                            placeholder="Enter district"
+                            placeholder="ເລືອກເມືອງ..."
                             name="district"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -360,7 +360,7 @@ export default function AddAgent() {
                           <Form.Label>ແຂວງ</Form.Label>
                           <Form.Control
                             type="text"
-                            placeholder="Enter province"
+                            placeholder="ເລືອກແຂວງ..."
                             name="province"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -374,7 +374,7 @@ export default function AddAgent() {
                         <Form.Label>ສັນຊາດ</Form.Label>
                         <Form.Control
                           type="text"
-                          placeholder="Enter country"
+                          placeholder="ປ້ອນຊື່ສັນຊາດ..."
                           name="country"
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -387,7 +387,7 @@ export default function AddAgent() {
                         <Form.Label>ໝາຍເຫດ</Form.Label>
                         <Form.Control
                           as={"textarea"}
-                          placeholder="Enter note"
+                          placeholder="ປ້ອນໝາຍເຫດ..."
                           name="note"
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -418,7 +418,7 @@ export default function AddAgent() {
                           <Form.Label>ຊື່ຮ້ານ</Form.Label>
                           <Form.Control
                             type="text"
-                            placeholder="Enter shopName"
+                            placeholder="ປ້ອນຊື່ຮ້ານ..."
                             name="shopName"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -432,7 +432,7 @@ export default function AddAgent() {
                           <Form.Label>ເບີໂທຮ້ານ</Form.Label>
                           <Form.Control
                             type="phone"
-                            placeholder="Enter shopPhone"
+                            placeholder="ປ້ອນເບີໂທຮ້ານ..."
                             name="shopPhone"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -470,7 +470,7 @@ export default function AddAgent() {
                           <Form.Label>ບ້ານ</Form.Label>
                           <Form.Control
                             type="text"
-                            placeholder="Enter villageShop"
+                            placeholder="ປ້ອນຊື່ບ້ານ..."
                             name="villageShop"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -483,7 +483,7 @@ export default function AddAgent() {
                           <Form.Label>ເມືອງ</Form.Label>
                           <Form.Control
                             type="text"
-                            placeholder="Enter districtShop"
+                            placeholder="ປ້ອນຊື່ເມືອງ..."
                             name="districtShop"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -496,7 +496,7 @@ export default function AddAgent() {
                           <Form.Label>ແຂວງ</Form.Label>
                           <Form.Control
                             type="text"
-                            placeholder="Enter provinceShop"
+                            placeholder="ປ້ອນຊື່ແຂວງ..."
                             name="provinceShop"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -523,7 +523,7 @@ export default function AddAgent() {
                         <Form.Label>ລິ້ງຕຳແໜ່ງ</Form.Label>
                         <Form.Control
                           type="text"
-                          placeholder="Enter location"
+                          placeholder="ປ້ອນລິ້ງຕຳແໜ່ງ..."
                           name="location"
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -536,7 +536,7 @@ export default function AddAgent() {
                         <Form.Label>ໝາຍເຫດ</Form.Label>
                         <Form.Control
                           as={"textarea"}
-                          placeholder="Enter noteShop"
+                          placeholder="ປ້ອນໝາຍເຫດ..."
                           name="noteShop"
                           onChange={handleChange}
                           onBlur={handleBlur}
