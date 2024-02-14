@@ -4,20 +4,24 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom";
 import axios from "axios";
 
 // Library
-import { Form, Button, Row, Col, Breadcrumb, Card, Spinner } from "react-bootstrap";
+import { Form, Button, Row, Col, Breadcrumb, Card } from "react-bootstrap";
 
 // Components
 import Loading from "../../common/Loading";
+import {ADDRESS} from "../../consts/address"
 
 export default function AddAgent() {
   const CREATE_USER_AND_SHOP_AGENT = "https://ctlh-api.selectoptions.net:8080/v1/api/shop-agent/shop-and-user";
   const GET_MANY_SHOP_TYPE = "https://ctlh-api.selectoptions.net:8080/v1/api/shop-type";
   const S3_IMG_LINK = "https://ctlh-bucket.s3.ap-southeast-1.amazonaws.com/images/";
-
   const history = useHistory();
   const [shopType, setShopType] = useState(null);
   const [ownerProfile, setOwnerProfile] = useState(null);
   const [shopProfile, setShopProfile] = useState(null);
+  const [provinceName, setProvinceName] = useState('');
+  const [dataDistrict, setDataDistrict] = useState([]);
+  const [provinceNameShop, setProvinceNameShop] = useState('');
+  const [dataDistrictShop, setDataDistrictShop] = useState([]);
 
   const [popupLoading, setPopupLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -94,7 +98,7 @@ export default function AddAgent() {
         role: values.role,
         village: values.village,
         district: values.district,
-        province: values.province,
+        province: provinceName,
         country: values.country,
         password: values.password,
         note: values.note,
@@ -106,7 +110,7 @@ export default function AddAgent() {
         shopPhone: values.shopPhone,
         village: values.villageShop,
         district: values.districtShop,
-        province: values.provinceShop,
+        province: provinceNameShop,
         country: values.countryShop,
         location: values.location,
         note: values.noteShop,
@@ -135,6 +139,20 @@ export default function AddAgent() {
     }
     // setPopupLoading(false);
   };
+  const _selectProvinceCode = (e) => {
+    const code = e.target.value;
+    const _district = ADDRESS.filter(data => data?.code === code)
+    setProvinceName(_district[0]?.province_name);
+    setDataDistrict(_district[0]?.district_list)
+    console.log('_district[0]?.district_list: ', _district[0]?.district_list);
+  }
+
+  const _selectProvinceCodeShop = (e) => {
+    const code = e.target.value;
+    const _district = ADDRESS.filter(data => data?.code === code)
+    setProvinceNameShop(_district[0]?.province_name);
+    setDataDistrictShop(_district[0]?.district_list)
+  }
 
   return (
     <div>
@@ -329,6 +347,44 @@ export default function AddAgent() {
                     </Row>
 
                     <Row>
+                      
+                      <Col md={4}>
+                        <Form.Group className="mb-3" controlId="province">
+                          <Form.Label>ແຂວງ</Form.Label>
+                          <Form.Select
+                            type="text"
+                            name="province"
+                            onChange={(e) => {
+                              handleChange(e)
+                              _selectProvinceCode(e)
+                            }}
+                            onBlur={handleBlur}
+                            value={values.province}
+                          >
+                            <option>ເລືອກແຂວງ</option>
+                            {ADDRESS?.map((pro, index) => (
+                              <option key={index} value={pro?.code}>{pro?.province_name}</option>
+                            ))}
+                          </Form.Select>
+                        </Form.Group>
+                      </Col>
+                      <Col md={4}>
+                        <Form.Group className="mb-3" controlId="district">
+                          <Form.Label>ເມືອງ</Form.Label>
+                          <Form.Select
+                            type="text"
+                            name="district"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.district}
+                          >
+                          <option>ເລືອກເມືອງ</option>
+                            {dataDistrict?.map((dist, index) => (
+                              <option key={index} value={dist?.district}>{dist?.district}</option>
+                            ))}
+                          </Form.Select>
+                        </Form.Group>
+                      </Col>
                       <Col md={4}>
                         <Form.Group className="mb-3" controlId="village">
                           <Form.Label>ບ້ານ</Form.Label>
@@ -339,32 +395,6 @@ export default function AddAgent() {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.village}
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col md={4}>
-                        <Form.Group className="mb-3" controlId="district">
-                          <Form.Label>ເມືອງ</Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="ເລືອກເມືອງ..."
-                            name="district"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.district}
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col md={4}>
-                        <Form.Group className="mb-3" controlId="province">
-                          <Form.Label>ແຂວງ</Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="ເລືອກແຂວງ..."
-                            name="province"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.province}
                           />
                         </Form.Group>
                       </Col>
@@ -466,6 +496,43 @@ export default function AddAgent() {
                     </Row>
                     <Row>
                       <Col md={4}>
+                        <Form.Group className="mb-3" controlId="provinceShop">
+                          <Form.Label>ແຂວງ</Form.Label>
+                          <Form.Select
+                            type="text"
+                            name="provinceShop"
+                            onChange={(e) => {
+                              handleChange(e)
+                              _selectProvinceCodeShop(e)
+                            }}
+                            onBlur={handleBlur}
+                            value={values.provinceShop}
+                          >
+                            <option>ເລືອກແຂວງ</option>
+                            {ADDRESS?.map((pro, index) => (
+                              <option key={index} value={pro?.code}>{pro?.province_name}</option>
+                            ))}
+                          </Form.Select>
+                        </Form.Group>
+                      </Col>
+                      <Col md={4}>
+                        <Form.Group className="mb-3" controlId="districtShop">
+                          <Form.Label>ເມືອງ</Form.Label>
+                          <Form.Select
+                            type="text"
+                            name="districtShop"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.districtShop}
+                          >
+                            <option>ເລືອກເມືອງ</option>
+                            {dataDistrictShop?.map((dist, index) => (
+                              <option key={index} value={dist?.district}>{dist?.district}</option>
+                            ))}
+                            </Form.Select>
+                        </Form.Group>
+                      </Col>
+                      <Col md={4}>
                         <Form.Group className="mb-3" controlId="villageShop">
                           <Form.Label>ບ້ານ</Form.Label>
                           <Form.Control
@@ -475,32 +542,6 @@ export default function AddAgent() {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.villageShop}
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col md={4}>
-                        <Form.Group className="mb-3" controlId="districtShop">
-                          <Form.Label>ເມືອງ</Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="ປ້ອນຊື່ເມືອງ..."
-                            name="districtShop"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.districtShop}
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col md={4}>
-                        <Form.Group className="mb-3" controlId="provinceShop">
-                          <Form.Label>ແຂວງ</Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="ປ້ອນຊື່ແຂວງ..."
-                            name="provinceShop"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.provinceShop}
                           />
                         </Form.Group>
                       </Col>
@@ -545,7 +586,6 @@ export default function AddAgent() {
                         />
                       </Form.Group>
                     </Row>
-
                     <Button variant="primary" type="submit" style={{ width: "100%" }}>
                       ເພີ່ມ Agent
                     </Button>
