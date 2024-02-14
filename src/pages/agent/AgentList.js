@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 /**
  * @Library
  */
+import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -30,22 +31,34 @@ export default function AgentList() {
   const [isLoading, setIsLoading] = useState(false);
   const [deletePopup, setDeletePopup] = useState(false);
 
+  // Filter
+  const [shopName, setShopName] = useState(null);
+  const [shopPhone, setShopPhone] = useState(null);
+
   const fetchShopAgent = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(GET_ALL_SHOP_AGENT);
-      const responseData = await response.json();
-      console.log(responseData.data.data);
-      setShopAgentList(responseData.data.data);
+      const response = await axios.get(GET_ALL_SHOP_AGENT, {
+        params: {
+          shopName: shopName,
+          shopPhone: shopPhone,
+        },
+      });
+      console.log(response.data.data.data);
+      setShopAgentList(response.data.data.data);
     } catch (error) {
       console.log(error);
     }
     setIsLoading(false);
   };
 
+  // useEffect(() => {
+  //   fetchShopAgent();
+  // }, []);
+
   useEffect(() => {
     fetchShopAgent();
-  }, []);
+  }, [shopName, shopPhone]);
 
   const _handleDeleteAgent = async () => {
     const response = await fetch(GET_ALL_SHOP_AGENT + deleteAgentId, {
@@ -75,12 +88,12 @@ export default function AgentList() {
         <Row>
           <Col sm="4">
             <Form.Group className="mb-4">
-              <Form.Label>ຄົ້ນຫາຊື່ Agent</Form.Label>
+              <Form.Label>ຄົ້ນຫາຊື່ຮ້ານ</Form.Label>
               <Form.Control
                 type="type"
                 placeholder="ຊຶ່"
                 onChange={(e) => {
-                  // setDataSearch(e.target.value);
+                  setShopName(e.target.value);
                 }}
               />
             </Form.Group>
@@ -92,7 +105,7 @@ export default function AgentList() {
                 type="type"
                 placeholder="ຄົ້ນຫາດ້ວຍເບີໂທ"
                 onChange={(e) => {
-                  // setPhoneSearch(e.target.value);
+                  setShopPhone(e.target.value);
                 }}
               />
             </Form.Group>

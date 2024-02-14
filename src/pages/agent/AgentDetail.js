@@ -16,6 +16,8 @@ export default function AgentDetail() {
   // https://ctlh-api.selectoptions.net:8080/
   const GET_AGENT_DETAIL = "https://ctlh-api.selectoptions.net:8080/v1/api/shop-agent/";
   const USER_API = "https://ctlh-api.selectoptions.net:8080/v1/api/user/";
+  const GET_MANY_SHOP_TYPE = "https://ctlh-api.selectoptions.net:8080/v1/api/shop-type";
+  const SHOP_API = "https://ctlh-api.selectoptions.net:8080/v1/api/shop-agent";
 
   const S3_IMG_LINK = "https://ctlh-bucket.s3.ap-southeast-1.amazonaws.com/images/";
 
@@ -25,6 +27,7 @@ export default function AgentDetail() {
   const history = useHistory();
   const { id } = useParams();
   const [agentDetail, setAgentDetail] = useState(null);
+  const [shopType, setShopType] = useState(null);
 
   // Event Trigger
   const [loading, setLoading] = useState(false);
@@ -46,6 +49,20 @@ export default function AgentDetail() {
 
   useEffect(() => {
     fetchAgentDetail();
+    const fetchShopType = async () => {
+      // setPopupLoading(true);
+      try {
+        const response = await fetch(GET_MANY_SHOP_TYPE);
+        const data = await response.json();
+        console.log(data.data.data);
+        setShopType(data.data.data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+      // setPopupLoading(false);
+    };
+
+    fetchShopType();
   }, [id]);
 
   useEffect(() => {
@@ -104,6 +121,23 @@ export default function AgentDetail() {
       }
     } catch (error) {
       customizeToast("error", "ອັບເດດຂໍ້ມູນເຈົ້າຂອງຮ້ານບໍ່ສຳເລັດ");
+    }
+  };
+
+  const _handleShopUpdate = async (values) => {
+    try {
+      const response = await axios.put(SHOP_API + "/" + agentDetail?._id, values);
+
+      console.log(response);
+
+      if (response.status === 200) {
+        fetchAgentDetail();
+
+        setEditAgentFormModal(false);
+        customizeToast("success", "ອັບເດດຂໍ້ມູນເຈົ້າຮ້ານສຳເລັດ");
+      }
+    } catch (error) {
+      customizeToast("error", "ອັບເດດຂໍ້ມູນຮ້ານບໍ່ສຳເລັດ");
     }
   };
 
@@ -203,7 +237,7 @@ export default function AgentDetail() {
               {/* ຂໍ້ມູນຮ້ານ */}
               <div style={{ padding: 10, background: "var(--main2-color)", marginBottom: 10 }} className="flexBetween">
                 <p>ຂໍ້ມູນຮ້ານ</p>
-                <Button>ແກ້ໄຂຂໍ້ມູນຮ້ານ</Button>
+                <Button onClick={() => setEditAgentFormModal(true)}>ແກ້ໄຂຂໍ້ມູນຮ້ານ</Button>
               </div>
               <div className="flexBetween">
                 <p className="">ຊື່ຮ້ານ</p>
@@ -245,6 +279,9 @@ export default function AgentDetail() {
           </Col>
         </Row>
       </div>
+      {/**
+            @Modal ການແກ້ໄຂຂໍ້ມູນເຈົ້າຂອງຮ້ານ
+       */}
       <Modal centered show={editUserFormModal} onHide={() => setEditUserFormModal(false)} style={{ maxHeight: 600, overflowY: "scroll" }}>
         <Modal.Header closeButton>
           <Modal.Title>ແກ້ໄຂຂໍ້ມູນເຈົ້າຂອງຮ້ານ</Modal.Title>
@@ -515,14 +552,211 @@ export default function AgentDetail() {
             )}
           </Formik>
         </Modal.Body>
-        {/* <Modal.Footer>
-          <Button variant="secondary" onClick={() => setEditUserFormModal(false)}>
-            ຍົກເລີກ
-          </Button>
-          <Button className="bg-primary" onClick={() => {}}>
-            ຢືນຢັນ
-          </Button>
-        </Modal.Footer> */}
+      </Modal>
+      {/**
+            @Modal ການແກ້ໄຂຂໍ້ມູນຮ້ານ
+       */}
+      <Modal centered show={editAgentFormModal} onHide={() => setEditAgentFormModal(false)} style={{ maxHeight: 600, overflowY: "scroll" }}>
+        <Modal.Header closeButton>
+          <Modal.Title>ແກ້ໄຂຂໍ້ມູນຂອງຮ້ານ</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Formik
+            initialValues={{
+              //   User Data
+              shopType: agentDetail?.shopType?._id || "",
+              shopName: agentDetail?.shopName || "",
+              shopImage: agentDetail?.image || "",
+              shopPhone: agentDetail?.phone || "",
+              village: agentDetail?.village || "",
+              district: agentDetail?.district || "",
+              province: agentDetail?.province || "",
+              country: agentDetail?.country || "",
+              location: agentDetail?.location || "",
+              note: agentDetail?.note || "",
+            }}
+            onSubmit={(values, { setSubmitting }) => {
+              // setSubmitting(false);
+              // handleFormSubmit(values);
+
+              if (newShopProfile) {
+                values.shopImage = newShopProfile;
+              }
+
+              _handleShopUpdate(values);
+            }}
+          >
+            {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
+              <Form onSubmit={handleSubmit}>
+                <Row>
+                  {/* <Col md={4} className="flexCenter" style={{ justifyContent: "flex-start", flexDirection: "column" }}></Col> */}
+                  <Col md={12}>
+                    {/* ຂ້ໍມູນຜູ້ໃຊ້ User */}
+                    <div className="flexCenter" style={{ flexDirection: "column" }}>
+                      <Card style={{ width: 300, height: 300 }}>
+                        {newShopProfile ? (
+                          <img src={S3_IMG_LINK + newShopProfile} alt="profile avatar" width={"100%"} style={{ objectFit: "cover" }} />
+                        ) : (
+                          <div className="flexCenter" style={{ height: "100%" }}>
+                            ອັບໂຫຼດຮູບພາບໃໝ່
+                          </div>
+                        )}
+                        {/* {imageSpinner ? <Spinner animation="border" /> : null} */}
+                      </Card>
+                      <Button style={{ margin: "10px 0", position: "relative" }}>
+                        ອັບໂຫຼດຮູບພາບໃໝ່
+                        <input
+                          type="file"
+                          onChange={(e) => {
+                            _handleChangeFile(e, setNewShopProfile);
+                          }}
+                          style={{ opacity: 0, position: "absolute", inset: 0, zIndex: 10 }}
+                        />
+                      </Button>
+                    </div>
+                    <Card style={{ padding: 20 }}>
+                      <div style={{ backgroundColor: "var(--main2-color)", padding: 10, width: "100%", marginBottom: 10 }}>ຂໍ້ມູນທົ່ວໄປ</div>
+                      <div style={{ backgroundColor: "var(--main2-color)", padding: 10, width: "100%", marginBottom: 10 }}>ຂໍ້ມູນຮ້ານ</div>
+                      <Form.Group className="mb-3" controlId="shopType">
+                        <Form.Label>ປະເພດຮ້ານ</Form.Label>
+                        <Form.Select aria-label="shopType" name="shopType" onChange={handleChange} onBlur={handleBlur} value={values.shopType}>
+                          <option>ເລືອກປະເພດຮ້ານ</option>
+                          {shopType &&
+                            shopType.map((item, index) => {
+                              return (
+                                <option key={index} value={item._id}>
+                                  {item.name}
+                                </option>
+                              );
+                            })}
+                        </Form.Select>
+                      </Form.Group>
+                      <Row>
+                        <Col md={6}>
+                          <Form.Group className="mb-3" controlId="shopName">
+                            <Form.Label>ຊື່ຮ້ານ</Form.Label>
+                            <Form.Control
+                              type="text"
+                              placeholder="ປ້ອນຊື່ຮ້ານ..."
+                              name="shopName"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.shopName}
+                              rows={5}
+                            />
+                          </Form.Group>
+                        </Col>
+                        <Col md={6}>
+                          <Form.Group className="mb-3" controlId="shopPhone">
+                            <Form.Label>ເບີໂທຮ້ານ</Form.Label>
+                            <Form.Control
+                              type="phone"
+                              placeholder="ປ້ອນເບີໂທຮ້ານ..."
+                              name="shopPhone"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.shopPhone}
+                            />
+                          </Form.Group>
+                        </Col>
+                      </Row>
+
+                      <Row>
+                        <Col md={4}>
+                          <Form.Group className="mb-3" controlId="village">
+                            <Form.Label>ບ້ານ</Form.Label>
+                            <Form.Control
+                              type="text"
+                              placeholder="ປ້ອນຊື່ບ້ານ..."
+                              name="village"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.village}
+                            />
+                          </Form.Group>
+                        </Col>
+                        <Col md={4}>
+                          <Form.Group className="mb-3" controlId="district">
+                            <Form.Label>ເມືອງ</Form.Label>
+                            <Form.Control
+                              type="text"
+                              placeholder="ປ້ອນຊື່ເມືອງ..."
+                              name="district"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.district}
+                            />
+                          </Form.Group>
+                        </Col>
+                        <Col md={4}>
+                          <Form.Group className="mb-3" controlId="province">
+                            <Form.Label>ແຂວງ</Form.Label>
+                            <Form.Control
+                              type="text"
+                              placeholder="ປ້ອນຊື່ແຂວງ..."
+                              name="province"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.province}
+                            />
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Form.Group className="mb-3" controlId="country">
+                          <Form.Label>ປະເທດ</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="Enter country"
+                            name="country"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.country}
+                          />
+                        </Form.Group>
+                      </Row>
+                      <Row>
+                        <Form.Group className="mb-3" controlId="location">
+                          <Form.Label>ລິ້ງຕຳແໜ່ງ</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="ປ້ອນລິ້ງຕຳແໜ່ງ..."
+                            name="location"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.location}
+                          />
+                        </Form.Group>
+                      </Row>
+                      <Row>
+                        <Form.Group className="mb-3" controlId="note">
+                          <Form.Label>ໝາຍເຫດ</Form.Label>
+                          <Form.Control
+                            as={"textarea"}
+                            placeholder="ປ້ອນໝາຍເຫດ..."
+                            name="note"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.note}
+                            rows={5}
+                          />
+                        </Form.Group>
+                      </Row>
+                    </Card>
+                  </Col>
+                </Row>
+                <div className="flexCenter" style={{ gap: 10, margin: "10px 0" }}>
+                  <Button variant="secondary" onClick={() => setEditAgentFormModal(false)}>
+                    ຍົກເລີກ
+                  </Button>
+                  <Button className="bg-primary" type="submit">
+                    ຢືນຢັນ
+                  </Button>
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </Modal.Body>
       </Modal>
     </div>
   );
