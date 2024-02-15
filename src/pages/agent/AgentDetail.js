@@ -10,6 +10,7 @@ import axios from "axios";
 import { Col, Row, Card, Button, Breadcrumb, Modal, Form } from "react-bootstrap";
 import { dateTimeLao } from "../../helper";
 import { customizeToast } from "../../helper/toast";
+import { ADDRESS } from "../../consts/address";
 
 export default function AgentDetail() {
   // const GET_AGENT_DETAIL = "http://localhost:8080/v1/api/shop-agent/";
@@ -23,6 +24,11 @@ export default function AgentDetail() {
 
   const [newUserProfile, setNewUserProfile] = useState(null);
   const [newShopProfile, setNewShopProfile] = useState(null);
+
+  const [provinceName, setProvinceName] = useState("");
+  const [dataDistrict, setDataDistrict] = useState([]);
+  const [provinceNameShop, setProvinceNameShop] = useState("");
+  const [dataDistrictShop, setDataDistrictShop] = useState([]);
 
   const history = useHistory();
   const { id } = useParams();
@@ -65,9 +71,20 @@ export default function AgentDetail() {
     fetchShopType();
   }, [id]);
 
-  useEffect(() => {
-    console.log(id);
-  }, [id]);
+  const _selectProvinceCode = (e) => {
+    const code = e.target.value;
+    const _district = ADDRESS.filter((data) => data?.code === code);
+    setProvinceName(_district[0]?.province_name);
+    setDataDistrict(_district[0]?.district_list);
+    console.log("_district[0]?.district_list: ", _district[0]?.district_list);
+  };
+
+  const _selectProvinceCodeShop = (e) => {
+    const code = e.target.value;
+    const _district = ADDRESS.filter((data) => data?.code === code);
+    setProvinceNameShop(_district[0]?.province_name);
+    setDataDistrictShop(_district[0]?.district_list);
+  };
 
   const _handleChangeFile = async (event, setImage) => {
     // setImageSpinner(true);
@@ -471,6 +488,41 @@ export default function AgentDetail() {
 
                       <Row>
                         <Col md={4}>
+                          <Form.Group className="mb-3" controlId="province">
+                            <Form.Label>ແຂວງ</Form.Label>
+                            <Form.Select
+                              type="text"
+                              name="province"
+                              onChange={(e) => {
+                                handleChange(e);
+                                // _selectProvinceCode(e);
+                              }}
+                              onBlur={handleBlur}
+                              value={values.province}
+                            >
+                              <option>ເລືອກແຂວງ</option>
+                              {ADDRESS?.map((pro, index) => (
+                                <option key={index} value={pro?.code}>
+                                  {pro?.province_name}
+                                </option>
+                              ))}
+                            </Form.Select>
+                          </Form.Group>
+                        </Col>
+                        <Col md={4}>
+                          <Form.Group className="mb-3" controlId="district">
+                            <Form.Label>ເມືອງ</Form.Label>
+                            <Form.Select type="text" name="district" onChange={handleChange} onBlur={handleBlur} value={values.district}>
+                              <option>ເລືອກເມືອງ</option>
+                              {dataDistrict?.map((dist, index) => (
+                                <option key={index} value={dist?.district}>
+                                  {dist?.district}
+                                </option>
+                              ))}
+                            </Form.Select>
+                          </Form.Group>
+                        </Col>
+                        <Col md={4}>
                           <Form.Group className="mb-3" controlId="village">
                             <Form.Label>ບ້ານ</Form.Label>
                             <Form.Control
@@ -480,32 +532,6 @@ export default function AgentDetail() {
                               onChange={handleChange}
                               onBlur={handleBlur}
                               value={values.village}
-                            />
-                          </Form.Group>
-                        </Col>
-                        <Col md={4}>
-                          <Form.Group className="mb-3" controlId="district">
-                            <Form.Label>ເມືອງ</Form.Label>
-                            <Form.Control
-                              type="text"
-                              placeholder="Enter district"
-                              name="district"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.district}
-                            />
-                          </Form.Group>
-                        </Col>
-                        <Col md={4}>
-                          <Form.Group className="mb-3" controlId="province">
-                            <Form.Label>ແຂວງ</Form.Label>
-                            <Form.Control
-                              type="text"
-                              placeholder="Enter province"
-                              name="province"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.province}
                             />
                           </Form.Group>
                         </Col>
