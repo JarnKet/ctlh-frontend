@@ -239,7 +239,13 @@ export default function LoginPage() {
                   </div>
                 </div>
                 <br />
-                <button className="btn-login" onClick={handleSubmit}>
+                <button
+                  className="btn-login"
+                  onClick={() => {
+                    // handleSubmit();
+                    history.push("/agent-list/limit/:limit/skip/:skip");
+                  }}
+                >
                   ເຂົ້າສູ່ລະບົບ
                 </button>
               </form>

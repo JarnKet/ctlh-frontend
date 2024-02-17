@@ -5,12 +5,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useMediaQuery } from "@uidotdev/usehooks";
 
 /**
  * @Component
  */
 import { Form, Col, Row, Table, Spinner, Modal, Button, Breadcrumb } from "react-bootstrap";
-import { faCopy, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 /**
  * @CONSTANT
@@ -23,8 +24,11 @@ import { dateTimeLao } from "../../helper";
 export default function AgentList() {
   // const GET_ALL_SHOP_AGENT = "http://localhost:8080/v1/api/shop-agent/";
   const GET_ALL_SHOP_AGENT = "https://ctlh-api.selectoptions.net:8080/v1/api/shop-agent/";
-  const [shopAgentList, setShopAgentList] = useState(null);
   const history = useHistory();
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
+  // Data
+  const [shopAgentList, setShopAgentList] = useState(null);
   const [deleteAgentId, setDeleteAgentId] = useState(null);
 
   // Event Trigger
@@ -34,6 +38,7 @@ export default function AgentList() {
   // Filter
   const [shopName, setShopName] = useState(null);
   const [shopPhone, setShopPhone] = useState(null);
+  const [shopCode, setShopCode] = useState(null);
 
   const fetchShopAgent = async () => {
     setIsLoading(true);
@@ -42,6 +47,7 @@ export default function AgentList() {
         params: {
           shopName: shopName,
           shopPhone: shopPhone,
+          shopCode: shopCode,
         },
       });
       console.log(response.data.data.data);
@@ -52,13 +58,9 @@ export default function AgentList() {
     setIsLoading(false);
   };
 
-  // useEffect(() => {
-  //   fetchShopAgent();
-  // }, []);
-
   useEffect(() => {
     fetchShopAgent();
-  }, [shopName, shopPhone]);
+  }, [shopName, shopPhone, shopCode]);
 
   const _handleDeleteAgent = async () => {
     const response = await fetch(GET_ALL_SHOP_AGENT + deleteAgentId, {
@@ -91,7 +93,7 @@ export default function AgentList() {
               <Form.Label>ຄົ້ນຫາຊື່ຮ້ານ</Form.Label>
               <Form.Control
                 type="type"
-                placeholder="ຊຶ່"
+                placeholder="ປ້ອນຊື່ຮ້ານ..."
                 onChange={(e) => {
                   setShopName(e.target.value);
                 }}
@@ -100,32 +102,28 @@ export default function AgentList() {
           </Col>
           <Col sm="4">
             <Form.Group className="mb-4">
-              <Form.Label>ເບີໂທ</Form.Label>
+              <Form.Label>ເບີໂທຮ້ານ</Form.Label>
               <Form.Control
                 type="type"
-                placeholder="ຄົ້ນຫາດ້ວຍເບີໂທ"
+                placeholder="ປ້ອນເບີໂທຮ້ານ..."
                 onChange={(e) => {
                   setShopPhone(e.target.value);
                 }}
               />
             </Form.Group>
           </Col>
-          {/* <Col sm="4">
-            <Form.Group className="mb-3">
-              <Form.Label>ສິດການໃຊ້</Form.Label>
-              <Form.Select
+          <Col sm="4">
+            <Form.Group className="mb-4">
+              <Form.Label>ລະຫັດຮ້ານ</Form.Label>
+              <Form.Control
+                type="type"
+                placeholder="ປ້ອນລະຫັດຮ້ານ..."
                 onChange={(e) => {
-                  // setRoleSearch(e.target.value);
+                  setShopCode(e.target.value);
                 }}
-              >
-                <option value="">ທັງໝົດ</option>
-                <option value="ADMIN">ແອັດມິນ</option>
-                <option value="STAFF_STOCK">ພະນັກງານສາງ</option>
-                <option value="STAFF">ຊ່າງ</option>
-                <option value="COUNTER">ພະນັກງານເຄົ້າເຕີ້</option>
-              </Form.Select>
+              />
             </Form.Group>
-          </Col> */}
+          </Col>
         </Row>
       </div>
       <div className="card-body">
@@ -134,18 +132,10 @@ export default function AgentList() {
             {/* <b>ພະນັກງານ ({totals})</b> */}
             <b>ຕົວແທນ ({shopAgentList?.length})</b>
           </h4>
-          {/* {userLoginData?.role === "ADMIN" ? (
-            <button className="btn-primary-web" onClick={() => _historyPush(Routs.USER_ADD)}>
-              + ເພີ່ມຜູ້ໃຊ້
-            </button>
-          ) : (
-            <></>
-          )} */}
 
           <button
             className="btn-primary-web"
             onClick={() => {
-              // _historyPush(Routs.USER_ADD);
               history.push("/add-agent");
             }}
           >
@@ -158,7 +148,7 @@ export default function AgentList() {
             <div className="loading-page">
               <Spinner animation="border" variant="primary" />
             </div>
-          ) : (
+          ) : !isMobile ? (
             <Table responsive="xl">
               <thead>
                 <tr>
@@ -169,7 +159,6 @@ export default function AgentList() {
                   <th>ເບີໂທ</th>
                   <th>ວັນທີສ້າງ</th>
                   <th>ຈັດການ</th>
-                  {/* {userLoginData?.role === "ADMIN" ? <th>ຈັດການ</th> : <></>} */}
                 </tr>
               </thead>
               {shopAgentList?.map((item, index) => {
@@ -179,7 +168,6 @@ export default function AgentList() {
                       {/* <td>{index + 1 + _limit * (_skip - 1)}</td> */}
                       <td
                         onClick={() => {
-                          //  _historyPush(Routs.USER_DETAIL + "/" + item?.id + "/limit/10/skip/1", { role: "staff" });
                           history.push(AGENT_DETAIL + "/" + item?._id);
                         }}
                       >
@@ -187,22 +175,13 @@ export default function AgentList() {
                       </td>
                       <td
                         onClick={() => {
-                          //  _historyPush(Routs.USER_DETAIL + "/" + item?.id + "/limit/10/skip/1", { role: "staff" });
                           history.push(AGENT_DETAIL + "/" + item?._id);
                         }}
                       >
                         {item?.shopOwner?.userCode}{" "}
-                        <FontAwesomeIcon
-                          icon={faCopy}
-                          className="icon-copy"
-                          onClick={(e) => {
-                            // _selectCodeForCopy(e, item?.userId);
-                          }}
-                        />
                       </td>
                       <td
                         onClick={() => {
-                          //  _historyPush(Routs.USER_DETAIL + "/" + item?.id + "/limit/10/skip/1", { role: "staff" });
                           history.push(AGENT_DETAIL + "/" + item?._id);
                         }}
                       >
@@ -210,7 +189,6 @@ export default function AgentList() {
                       </td>
                       <td
                         onClick={() => {
-                          //  _historyPush(Routs.USER_DETAIL + "/" + item?.id + "/limit/10/skip/1", { role: "staff" });
                           history.push(AGENT_DETAIL + "/" + item?._id);
                         }}
                       >
@@ -219,57 +197,23 @@ export default function AgentList() {
 
                       <td
                         onClick={() => {
-                          //  _historyPush(Routs.USER_DETAIL + "/" + item?.id + "/limit/10/skip/1", { role: "staff" });
                           history.push(AGENT_DETAIL + "/" + item?._id);
                         }}
                       >
                         {item?.shopOwner?.phone}{" "}
-                        {/* <FontAwesomeIcon
-                          icon={faCopy}
-                          className="icon-copy"
-                          onClick={(e) => {
-                            // _selectPhoneForCopy(e, item?.phone);
-                          }}
-                        /> */}
                       </td>
-                      {/* <td>{convertRole(item?.role)}</td> */}
 
                       <td
                         onClick={() => {
-                          //  _historyPush(Routs.USER_DETAIL + "/" + item?.id + "/limit/10/skip/1", { role: "staff" });
                           history.push(AGENT_DETAIL + "/" + item?._id);
                         }}
                       >
-                        {/* {dateTimeLao(item?.updatedAt)} | {item?.createdBy?.fullName} */}
                         {dateTimeLao(item?.createdAt)}
                       </td>
-                      {/* {userLoginData?.role === "ADMIN" ? (
-                        <td>
-                          <button className="btn-list-edit" onClick={(e) => {
-                            // _updateUsers(e, item?.id);
-                          }}>
-                            <FontAwesomeIcon icon={faEdit} />
-                          </button>
-                          <button className="btn-list-delete" onClick={(e) => {
-                            // _deleteUser(e, item);
-                          }}>
-                            <FontAwesomeIcon icon={faTrash} />{" "}
-                          </button>
-                        </td>
-                      ) : (
-                        <></>
-                      )} */}
+
                       <td>
-                        {/* <button
-                          className="btn-list-edit"
-                          onClick={(e) => {
-                            // _updateUsers(e, item?.id);
-                          }}
-                        >
-                          <FontAwesomeIcon icon={faEdit} />
-                        </button> */}
                         <button
-                          className="btn-list-delete"
+                          style={{ color: "var(--main-color)", background: "none", border: "none" }}
                           onClick={(e) => {
                             setDeleteAgentId(item?._id);
                             setDeletePopup(true);
@@ -279,19 +223,58 @@ export default function AgentList() {
                         </button>
                       </td>
                     </tr>
+                    {/* {Pagination_helper(totals, Routs.USER_LIST)} */}
                   </tbody>
                 );
               })}
             </Table>
+          ) : (
+            <div className="flexCenter" style={{ flexDirection: "column", gap: 10 }}>
+              {shopAgentList?.map((item, index) => (
+                <div
+                  className="flexBetween"
+                  style={{ padding: 10, width: "100%", boxShadow: "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px" }}
+                >
+                  <div
+                    style={{ flex: 1 }}
+                    onClick={() => {
+                      //  _historyPush(Routs.USER_DETAIL + "/" + item?.id + "/limit/10/skip/1", { role: "staff" });
+                      history.push(AGENT_DETAIL + "/" + item?._id);
+                    }}
+                  >
+                    <h3>{item?.shopName}</h3>
+                    <p style={{ margin: 0 }}>
+                      {item?.shopOwner?.firstName} {item?.shopOwner?.lastName}
+                    </p>
+                    <small>
+                      {item?.shopOwner?.phone} | {dateTimeLao(item?.createdAt)}
+                    </small>
+                  </div>
+                  <div>
+                    <button
+                      className="btn-list-delete"
+                      onClick={(e) => {
+                        setDeleteAgentId(item?._id);
+                        setDeletePopup(true);
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faTrash} />{" "}
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           )}
-          {/* {Pagination_helper(totals, Routs.USER_LIST)} */}
         </div>
       </div>
-      <Modal show={deletePopup} onHide={() => setDeletePopup(false)}>
+      <Modal centered show={deletePopup} onHide={() => setDeletePopup(false)}>
         <Modal.Header closeButton>
           <Modal.Title>ຢືນຢັນລຶບຕົວແທນ</Modal.Title>
         </Modal.Header>
-        <Modal.Body>ຕ້ອງການລຶບຕົວແທນນີ້ ຫຼື ບໍ່!</Modal.Body>
+        <Modal.Body className="flexCenter" style={{ flexDirection: "column", gap: 10 }}>
+          <h1 style={{ fontWeight: "bold", fontSize: "2rem" }}>ຕ້ອງການລຶບຕົວແທນນີ້ ຫຼື ບໍ່!</h1>
+          <img src="/assets/image/alert-image.svg" alt="alert" style={{ width: "80%" }} />
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setDeletePopup(false)}>
             ຍົກເລີກ

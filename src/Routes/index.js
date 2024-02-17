@@ -101,22 +101,7 @@ function Routes() {
       <Switch>
         {/* <Navbar /> */}
 
-        <Main expanded={expanded}>
-          <NavBarPublic />
-
-          <div
-            style={{
-              marginTop: 60,
-              // marginLeft: 60,
-              backgroundColor: "#E5E5E5",
-              minHeight: "100vh",
-            }}
-          >
-            <PublicRoute exact path="/" component={AgentList} />
-            <PrivateRoute path={Routers.AGENT_DETAIL + "/:id"} exact component={(props) => <AgentDetail />} />
-            <PrivateRoute path={"/add-agent"} exact component={(props) => <AddAgent />} />
-          </div>
-        </Main>
+        <PublicRoute exact path="/" component={Login} />
         <Route
           render={({ location, history }) => (
             <React.Fragment>
@@ -126,7 +111,7 @@ function Routes() {
                 <div
                   style={{
                     marginTop: 60,
-                    marginLeft: 60,
+                    marginLeft: !isMobileOrTablet ? 60 : 0,
                     backgroundColor: "#E5E5E5",
                     minHeight: "100vh",
                   }}
@@ -146,6 +131,8 @@ function Routes() {
                   <PrivateRoute path={Routers.EXPORT_ADD} exact component={(props) => <ExportAdd />} />
 
                   {/* AGENT */}
+                  {/* <PrivateRoute path={Routers.AGENT_DETAIL + "/:id"} exact component={(props) => <AgentDetail />} />
+                  <PrivateRoute path={"/add-agent"} exact component={(props) => <AddAgent />} /> */}
                   <PrivateRoute path={Routers.AGENT_LIST + "/limit/:limit/skip/:skip"} exact component={(props) => <AgentList />} />
                   <PrivateRoute path={Routers.AGENT_DETAIL + "/:id"} exact component={(props) => <AgentDetail />} />
                   <PrivateRoute path={"/add-agent"} exact component={(props) => <AddAgent />} />

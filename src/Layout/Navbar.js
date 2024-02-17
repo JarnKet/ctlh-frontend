@@ -47,8 +47,9 @@ export default function NavBar() {
         }}
         variant="dark"
       >
-        <Navbar.Brand style={{ color: "#909090", marginLeft: 20, fontWeight: "bold" }} href="#">
-          ບໍລິສັດ ຈັນທະລັກຮຸ່ງເຮືອງ ຂາເຂົ້າ-ຂາອອກ ຈຳກັດ
+        <Navbar.Brand style={{ color: "black", marginLeft: isMobileOrTablet ? 20 : 80, fontWeight: "bold" }} href="/">
+          <img src="/assets/image/banner.jpg" alt="banner" height={60} style={{ marginRight: 10 }} />
+          {!isMobileOrTablet ? "ບໍລິສັດ ຈັນທະລັກຮຸ່ງເຮືອງ ຂາເຂົ້າ-ຂາອອກ ຈຳກັດ" : null}
         </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse>

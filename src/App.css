@@ -26,10 +26,16 @@
 }
 
 .body {
-  padding: 0;
+  padding: 20px;
+  gap: 20px;
   margin: 0;
   min-height: 100vh;
   background-color: #e5e5e5;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .avartar {
@@ -46,9 +52,10 @@
 
 .card-title {
   position: relative;
-  width: 97.4%;
+  width: 100%;
+  /* width: 97.4%;
   left: 20px;
-  right: 40px;
+  right: 40px; */
   padding: 20px;
   background-color: var(--second-color);
   /* box-shadow: 0 35px 40px rgba(0, 0, 0, 0.15); */
@@ -74,11 +81,12 @@
 }
 
 .card-body {
-  position: relative;
+  /* position: relative;
   width: 97.4%;
   top: 10px;
   left: 20px;
-  right: 40px;
+  right: 40px; */
+  width: 100%;
   padding: 40px 30px 30px 30px;
   background-color: var(--second-color);
   /* box-shadow: 0 35px 40px rgba(0, 0, 0, 0.15); */
@@ -86,9 +94,10 @@
 }
 
 .breadcrumb {
-  position: relative;
-  top: 10px;
-  left: 10px;
+  width: 100%;
+  text-align: left;
+  margin: 0;
+  padding: 0;
 }
 
 .bg-primary {

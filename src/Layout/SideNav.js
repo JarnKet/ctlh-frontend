@@ -204,8 +204,48 @@ export default function Sidenav({ location, history }) {
               fontSize: "17px",
             }}
           >
-            Agent
+            ຕົວແທນຈຳໜ່າຍ
           </NavText>
+        </NavItem>
+        <NavItem eventKey="product">
+          <NavIcon>
+            <FontAwesomeIcon
+              icon={faCube}
+              style={{
+                fontSize: "20px",
+                color:
+                  selectStatus === "category" || selectStatus === "product" || selectStatus === "receive" || selectStatus === "export"
+                    ? APP_COLOR_FOCUS
+                    : UN_SELECTED_TAB,
+              }}
+            />
+          </NavIcon>
+          <NavText
+            style={{
+              color:
+                selectStatus === "category" || selectStatus === "product" || selectStatus === "receive" || selectStatus === "export"
+                  ? APP_COLOR_FOCUS
+                  : UN_SELECTED_TAB,
+              fontSize: 17,
+            }}
+          >
+            ຈັດການຂໍ້ມູນສິນຄ້າ
+          </NavText>
+          <NavItem eventKey="category" style={{ backgroundColor: selectStatus === "category" ? SELECTED_TAB : "transparent" }}>
+            <NavText>ປະເພດສິນຄ້າ</NavText>
+          </NavItem>
+          <NavItem eventKey="product" style={{ backgroundColor: selectStatus === "product" ? SELECTED_TAB : "transparent" }}>
+            <NavText>ສິນຄ້າ</NavText>
+          </NavItem>
+          <NavItem eventKey="product" style={{ backgroundColor: selectStatus === "product" ? SELECTED_TAB : "transparent" }}>
+            <NavText>ຂອງແຖມ</NavText>
+          </NavItem>
+          {/* <NavItem eventKey="receive" style={{ backgroundColor: selectStatus === "receive" ? SELECTED_TAB : "transparent" }}>
+            <NavText>ນຳສິນຄ້າເຂົ້າ</NavText>
+          </NavItem>
+          <NavItem eventKey="export" style={{ backgroundColor: selectStatus === "export" ? SELECTED_TAB : "transparent" }}>
+            <NavText>ເບີກສິນຄ້າ</NavText>
+          </NavItem> */}
         </NavItem>
         {/* <NavItem eventKey={`sell-product`} style={{ backgroundColor: selectStatus === "sell-product" ? SELECTED_TAB : "transparent" }}>
           <NavIcon>
