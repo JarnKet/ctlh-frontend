@@ -12,7 +12,7 @@ export default function NavBar() {
   const isMobileOrTablet = useMediaQuery("(max-width: 768px)");
 
   useEffect(() => {
-    const _resData = localStorage.getItem(USER_KEY);
+    const _resData = localStorage.getItem('userAccess');
     const _localJson = JSON.parse(_resData);
     if (!_localJson?.data) {
       history.push(`/`);
@@ -58,7 +58,7 @@ export default function NavBar() {
             <div className="avartar"></div>
             <Dropdown>
               <Dropdown.Toggle style={{ color: "#96acc4" }} variant="">
-                {userData ? (userData?.data?.fullName ? userData?.data?.fullName : "") : ""}
+                {userData ? (userData?.data?.firstName ? userData?.data?.firstName: "") : ""}
               </Dropdown.Toggle>
 
               <Dropdown.Menu align="end">

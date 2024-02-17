@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 /**
  * @Library
@@ -20,6 +21,7 @@ import { useMediaQuery } from "@uidotdev/usehooks";
  */
 import Routs from "../../consts/router";
 import { USER_KEY } from "../../consts";
+import { API_LINKS } from "../../consts/api";
 /**
  *
  * @Apollo
@@ -36,6 +38,7 @@ import "./style.css";
 import Loading from "../../common/Loading";
 
 export default function LoginPage() {
+  const {LOGIN} = API_LINKS
   const isMobileOrTablet = useMediaQuery("(max-width: 768px)");
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
@@ -44,8 +47,8 @@ export default function LoginPage() {
   const [checkInputPasswordDataEmpty, setCheckInputPasswordDataEmpty] = useState(false);
   const [checkUserNameAndPassword, setCheckUserNameAndPassword] = useState(false);
 
-  const [loginUser] = useMutation(LOGIN_USER);
-  console.log("selectType: ", selectType);
+  // const [loginUser] = useMutation(LOGIN_USER);
+  // console.log("selectType: ", selectType);
 
   useEffect(() => {
     if (isMobileOrTablet) {
@@ -54,58 +57,82 @@ export default function LoginPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const _clickLogin = async (data) => {
+  const _handleLogin = async (values) =>{
+    console.log(values)
+    setIsLoading(true)
     try {
-      setIsLoading(true);
-      const _dataRespond = await loginUser({
-        variables: {
-          data,
-        },
-      });
-      if (_dataRespond?.data?.loginUser) {
+      const res = await axios.post(LOGIN, {
+        phone: values.userId,
+        password: values.password,
+      })
+
+      if (res.status === 200) {
         setIsLoading(false);
-        localStorage.setItem(USER_KEY, JSON.stringify(_dataRespond?.data?.loginUser));
-        if (selectType === "ENTRY_EXIT") {
-          history.push("entry-exit");
-        } else {
-          if (_dataRespond?.data?.loginUser?.data?.manageFuntion?.[0] === "DASHBOARD") {
-            history.push(Routs.DASHBOARD_PAGE);
-          }
-          if (_dataRespond?.data?.loginUser?.data?.manageFuntion?.[0] === "BILL") {
-            history.push(Routs.OPEN_BILL);
-          }
-          if (_dataRespond?.data?.loginUser?.data?.manageFuntion?.[0] === "PRODUCT") {
-            history.push(Routs.PRODUCT_LIST + "/limit/30/skip/1/");
-          }
-          if (_dataRespond?.data?.loginUser?.data?.manageFuntion?.[0] === "SERVICE") {
-            history.push(Routs.SERVICE_LIST + "/limit/30/skip/1/");
-          }
-          if (_dataRespond?.data?.loginUser?.data?.manageFuntion?.[0] === "EXPENDITURE") {
-            history.push(Routs.EXPENDITURE_LIST + "/limit/30/skip/1/");
-          }
-          if (_dataRespond?.data?.loginUser?.data?.manageFuntion?.[0] === "USER") {
-            history.push(Routs.USER_LIST + "/limit/30/skip/1/");
-          }
-          if (_dataRespond?.data?.loginUser?.data?.manageFuntion?.[0] === "ENTRY_EXIT") {
-            history.push(Routs.ENTRY_EXIT_LIST + "/limit/30/skip/1/");
-          }
-          if (_dataRespond?.data?.loginUser?.data?.manageFuntion?.[0] === "ABSENT") {
-            history.push(Routs.ABSENT_LIST + "/limit/30/skip/1/");
-          }
-          if (_dataRespond?.data?.loginUser?.data?.manageFuntion?.[0] === "PROMOTION") {
-            history.push(Routs.PROMOTION_LIST + "/limit/30/skip/1/");
-          }
-          if (_dataRespond?.data?.loginUser?.data?.manageFuntion?.[0] === "DUTY") {
-            history.push(Routs.DUTY);
-          }
-        }
+        console.log(res.data)
+        localStorage.setItem('userAccess', JSON.stringify(res.data));
+        history.push('/agent-list/limit/:limit/skip/:skip');
+
+        // const userAccessString = localStorage.getItem('userAccess');
+        // const userAccess = userAccessString ? JSON.parse(userAccessString) : null;
+        // console.log("Login Data", userAccess);
       }
-    } catch (err) {
-      console.log("err", err);
-      setCheckUserNameAndPassword(true);
-      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false)
     }
-  };
+  }
+
+  // const _clickLogin = async (data) => {
+  //   try {
+  //     setIsLoading(true);
+  //     const _dataRespond = await loginUser({
+  //       variables: {
+  //         data,
+  //       },
+  //     });
+  //     if (_dataRespond?.data?.loginUser) {
+  //       setIsLoading(false);
+  //       localStorage.setItem(USER_KEY, JSON.stringify(_dataRespond?.data?.loginUser));
+  //       if (selectType === "ENTRY_EXIT") {
+  //         history.push("entry-exit");
+  //       } else {
+  //         if (_dataRespond?.data?.loginUser?.data?.manageFuntion?.[0] === "DASHBOARD") {
+  //           history.push(Routs.DASHBOARD_PAGE);
+  //         }
+  //         if (_dataRespond?.data?.loginUser?.data?.manageFuntion?.[0] === "BILL") {
+  //           history.push(Routs.OPEN_BILL);
+  //         }
+  //         if (_dataRespond?.data?.loginUser?.data?.manageFuntion?.[0] === "PRODUCT") {
+  //           history.push(Routs.PRODUCT_LIST + "/limit/30/skip/1/");
+  //         }
+  //         if (_dataRespond?.data?.loginUser?.data?.manageFuntion?.[0] === "SERVICE") {
+  //           history.push(Routs.SERVICE_LIST + "/limit/30/skip/1/");
+  //         }
+  //         if (_dataRespond?.data?.loginUser?.data?.manageFuntion?.[0] === "EXPENDITURE") {
+  //           history.push(Routs.EXPENDITURE_LIST + "/limit/30/skip/1/");
+  //         }
+  //         if (_dataRespond?.data?.loginUser?.data?.manageFuntion?.[0] === "USER") {
+  //           history.push(Routs.USER_LIST + "/limit/30/skip/1/");
+  //         }
+  //         if (_dataRespond?.data?.loginUser?.data?.manageFuntion?.[0] === "ENTRY_EXIT") {
+  //           history.push(Routs.ENTRY_EXIT_LIST + "/limit/30/skip/1/");
+  //         }
+  //         if (_dataRespond?.data?.loginUser?.data?.manageFuntion?.[0] === "ABSENT") {
+  //           history.push(Routs.ABSENT_LIST + "/limit/30/skip/1/");
+  //         }
+  //         if (_dataRespond?.data?.loginUser?.data?.manageFuntion?.[0] === "PROMOTION") {
+  //           history.push(Routs.PROMOTION_LIST + "/limit/30/skip/1/");
+  //         }
+  //         if (_dataRespond?.data?.loginUser?.data?.manageFuntion?.[0] === "DUTY") {
+  //           history.push(Routs.DUTY);
+  //         }
+  //       }
+  //     }
+  //   } catch (err) {
+  //     console.log("err", err);
+  //     setCheckUserNameAndPassword(true);
+  //     setIsLoading(false);
+  //   }
+  // };
 
   return (
     <>
@@ -129,11 +156,9 @@ export default function LoginPage() {
             } else {
               setCheckInputPasswordDataEmpty(false);
               setCheckUserNameAndPassword(false);
-              let newData = {
-                userId: values.userId,
-                password: values.password,
-              };
-              _clickLogin(newData);
+              
+              // _clickLogin(newData);
+              _handleLogin(values);
             }
           }}
         >
@@ -183,10 +208,10 @@ export default function LoginPage() {
                 </div>
               </div> */}
 
-              <form className="login-form">
+              <form className="login-form" onSubmit={handleSubmit}>
                 {/* <h1 className="font-login">Medical Clinic</h1> */}
                 <img src="/assets/image/banner.jpg" alt="logo" width={300} style={{ display: "block", margin: "0 auto" }} />
-                <label for="username">ຊື່ຜູ້ໃຊ້</label>
+                <label for="username">ເບີໂທຜູ້ໃຊ້</label>
                 <input
                   type="text"
                   className="input-user"
@@ -241,10 +266,7 @@ export default function LoginPage() {
                 <br />
                 <button
                   className="btn-login"
-                  onClick={() => {
-                    // handleSubmit();
-                    history.push("/agent-list/limit/:limit/skip/:skip");
-                  }}
+                  type="submit"
                 >
                   ເຂົ້າສູ່ລະບົບ
                 </button>
